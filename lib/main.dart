@@ -5,14 +5,22 @@ void main()=> runApp(MaterialApp(
     appBar: AppBar(
       title:Text("Footy"),
       centerTitle: true,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.teal[400],
     ),
     body: Center(
-      child: Text("Home to football")
+      child: Text("Home to football",
+      style:TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 2,
+        color: Colors.purple[300],
+
+
+      ))
     ),
     floatingActionButton:FloatingActionButton(onPressed: () {
       child:Text("Click");
-      backgroundColor: Colors.teal;
+      backgroundColor: Colors.red[600];
     },
 
     ),
