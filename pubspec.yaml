@@ -78,6 +78,9 @@ flutter:
   - family: Roboto
     fonts:
        - asset: Fonts/RobotoCondensed-VariableFont_wght.ttf
+  - family: Teko
+    fonts:
+      - asset: Fonts/Teko-VariableFont_wght.ttf
 
   #
   # For details regarding fonts from package dependencies,
