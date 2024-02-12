@@ -113,6 +113,9 @@ class _HomeState extends State<Home> {
         ElevatedButton(
             onPressed: (){},
             child: Text("Login",
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
         ),
 
