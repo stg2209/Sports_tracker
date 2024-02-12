@@ -2,21 +2,133 @@ import 'package:flutter/material.dart';
 
 void main()=> runApp(MaterialApp(
   home: Home(),
-  theme: ThemeData(
-    fontFamily: 'Teko',
-  ),
+  // theme: ThemeData(
+  //   fontFamily: 'Teko',
+  // ),
 ));
 
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int selected_index=0;
+  List content_change= [
+
+    Row(//Home
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+
+      children: [
+
+        ElevatedButton(// for player stats
+
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.person,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Player',
+              style:TextStyle(
+                color: Colors.black,
+              )),
+              // Text widget
+            ],
+          ),// Specify the label
+        ),
+
+        ElevatedButton(//for squad stats
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.people,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Squad',
+                  style:TextStyle(
+                      color: Colors.black,
+                  )), // Text widget
+            ],
+          ),// Specify the label
+        ),
+
+        ElevatedButton(//for points table
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.table_rows_outlined,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Points table',
+                  style:TextStyle(
+                    color: Colors.black,
+                  )), // Text widget
+            ],
+          ),// Specify the label
+        ),
+      ],
+
+    ),
+    Text(
+      'Score',
+        style: TextStyle(
+          fontSize: 40,
+        )
+
+    ),
+    Column(//Profile
+      children: [
+        TextFormField(
+
+          decoration: InputDecoration(
+            labelText: 'Username',
+            prefixIcon: Icon(Icons.person),
+
+          ),
+
+        ),
+        SizedBox(height: 8,),
+        TextFormField(
+
+            decoration: InputDecoration(
+              labelText: 'Password',
+            prefixIcon: Icon(Icons.password),
+
+          ),
+
+        ),
+        SizedBox(height: 8,),
+
+        ElevatedButton(
+            onPressed: (){},
+            child: Text("Login",
+            ),
+        ),
+
+
+      ],
+    )
+  ];
+  void _onTap(int index) {
+    setState(() {
+      selected_index = index;
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 1,
-      length: 3,
-      child: Scaffold(
+    return Scaffold(
+
         appBar: AppBar(
           title:Text("Footy",
             style: TextStyle(
@@ -25,101 +137,67 @@ class Home extends StatelessWidget {
           ),
           centerTitle: true,
           backgroundColor: Colors.teal[400],
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.people),
-              ),
-              Tab(
-                icon: Icon(Icons.person),
-              ),
-              Tab(
-                icon: Icon(Icons.table_rows_outlined),
-              ),
-            ],
-          ),
+
         ),
         body:
-        TabBarView(
-          children: <Widget>[
-            Center(
-              child: Text("Squad Stats",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'Teko',
-                ),
-              ),
+        Container(
+          padding: EdgeInsets.all(16.0),
+          child: content_change.elementAt(selected_index),
+
+        ),
+
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.deepOrange,
             ),
-            Center(
-              child: Text("Player Stats",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'Teko',
-                ),
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sports_soccer),
+              label: 'Score',
+              backgroundColor: Colors.green,
             ),
-            Center(
-              child: Text("Points table",
-              style: TextStyle(
-                fontSize: 30,
-                fontFamily: 'Teko',
-              ),
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sensor_occupied),
+              label: 'Profile',
+              backgroundColor: Colors.green,
             ),
+
+
 
           ],
+          currentIndex: selected_index,
+          selectedItemColor: Colors.teal[600],
 
+          onTap: _onTap,
         ),
+      floatingActionButton: selected_index == 0 ? Float() : null,
 
 
-
-
-
-
-        bottomNavigationBar:Bottombar(),
-        floatingActionButton:FloatingActionButton(
-          onPressed: () {},
-          child:Text("Add team",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Teko',
-                color: Colors.black,
-              fontSize: 15,
-            ),),
-          backgroundColor: Colors.teal[400],
-
-        ),
-      ),
     );
   }
 }
 
-class Bottombar extends StatelessWidget {
-  const Bottombar({super.key});
+class Float extends StatelessWidget {
+  const Float({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-          backgroundColor: Colors.deepOrange,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.sports_soccer),
-          label: 'Score',
-          backgroundColor: Colors.green,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.sensor_occupied),
-          label: 'Profile',
-          backgroundColor: Colors.green,
-        ),
+    return FloatingActionButton(
+      onPressed: () {},
+      child:Text("Add team",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 15,
+          fontFamily: 'Teko',
+        ),),
+      backgroundColor: Colors.teal[400],
 
-
-      ],
     );
   }
 }
+
 

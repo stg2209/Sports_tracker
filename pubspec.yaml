@@ -81,7 +81,10 @@ flutter:
   - family: Teko
     fonts:
       - asset: Fonts/Teko-VariableFont_wght.ttf
-
-  #
+  - family: Anton
+    fonts:
+      - asset: Fonts/Anton-Regular.ttf
+  assets:
+      - Assets/bayern.png
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
