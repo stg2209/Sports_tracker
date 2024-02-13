@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sports_tracker/form.dart';
+
 
 void main()=> runApp(MaterialApp(
   home: Home(),
-  // theme: ThemeData(
-  //   fontFamily: 'Teko',
-  // ),
+  theme: ThemeData(
+    fontFamily: 'Teko',
+  ),
 ));
 
 
@@ -17,112 +19,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selected_index=0;
-  List content_change= [
-
-    Row(//Home
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-
-      children: [
-
-        ElevatedButton(// for player stats
-
-          onPressed: () {
-            // Add your onPressed callback here
-          },
-          child:Column(
-            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
-            children: [
-              Icon(Icons.person,color: Colors.teal,), // Icon widget
-              SizedBox(height: 8), // Spacer between icon and text
-              Text('Player',
-              style:TextStyle(
-                color: Colors.black,
-              )),
-              // Text widget
-            ],
-          ),// Specify the label
-        ),
-
-        ElevatedButton(//for squad stats
-          onPressed: () {
-            // Add your onPressed callback here
-          },
-          child:Column(
-            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
-            children: [
-              Icon(Icons.people,color: Colors.teal,), // Icon widget
-              SizedBox(height: 8), // Spacer between icon and text
-              Text('Squad',
-                  style:TextStyle(
-                      color: Colors.black,
-                  )), // Text widget
-            ],
-          ),// Specify the label
-        ),
-
-        ElevatedButton(//for points table
-          onPressed: () {
-            // Add your onPressed callback here
-          },
-          child:Column(
-            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
-            children: [
-              Icon(Icons.table_rows_outlined,color: Colors.teal,), // Icon widget
-              SizedBox(height: 8), // Spacer between icon and text
-              Text('Points table',
-                  style:TextStyle(
-                    color: Colors.black,
-                  )), // Text widget
-            ],
-          ),// Specify the label
-        ),
-      ],
-
-    ),
-    Text(
-      'Score',
-        style: TextStyle(
-          fontSize: 40,
-        )
-
-    ),
-    Column(//Profile
-      children: [
-        TextFormField(
-
-          decoration: InputDecoration(
-            labelText: 'Username',
-            prefixIcon: Icon(Icons.person),
-
-          ),
-
-        ),
-        SizedBox(height: 8,),
-        TextFormField(
-
-            decoration: InputDecoration(
-              labelText: 'Password',
-            prefixIcon: Icon(Icons.password),
-
-          ),
-
-        ),
-        SizedBox(height: 8,),
-
-        ElevatedButton(
-            onPressed: (){},
-            child: Text("Login",
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-        ),
-
-
-      ],
-    )
-  ];
   void _onTap(int index) {
     setState(() {
       selected_index = index;
@@ -144,10 +40,9 @@ class _HomeState extends State<Home> {
         ),
         body:
         Container(
-          padding: EdgeInsets.all(16.0),
-          child: content_change.elementAt(selected_index),
+          padding: EdgeInsets.all(25),
+          child: _getBodyWidget(selected_index),),
 
-        ),
 
         bottomNavigationBar: BottomNavigationBar(
           items: [
@@ -181,7 +76,120 @@ class _HomeState extends State<Home> {
 
     );
   }
+  Widget _getBodyWidget(int index) {
+    switch (index) {
+      case 0:
+        return Home_tab();
+      case 1:
+        return Score_tab();
+      case 2:
+        return Profile_tab();
+      default:
+        return SizedBox.shrink();
+    }
+  }
 }
+
+
+class Home_tab extends StatelessWidget {
+  const Home_tab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+
+      children: [
+
+        ElevatedButton(// for player stats
+
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.person,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Player',
+                  style:TextStyle(
+                    color: Colors.black,
+                  )),
+              // Text widget
+            ],
+          ),// Specify the label
+        ),
+
+        ElevatedButton(//for squad stats
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.people,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Squad',
+                  style:TextStyle(
+                    color: Colors.black,
+                  )), // Text widget
+            ],
+          ),// Specify the label
+        ),
+
+        ElevatedButton(//for points table
+          onPressed: () {
+            // Add your onPressed callback here
+          },
+          child:Column(
+            mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
+            children: [
+              Icon(Icons.table_rows_outlined,color: Colors.teal,), // Icon widget
+              SizedBox(height: 8), // Spacer between icon and text
+              Text('Points table',
+                  style:TextStyle(
+                    color: Colors.black,
+                  )), // Text widget
+            ],
+          ),// Specify the label
+        ),
+      ],
+      ),
+
+    );
+  }
+}
+
+class Score_tab extends StatelessWidget {
+  const Score_tab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        'Score',
+        style: TextStyle(
+          fontSize: 40,
+        )
+
+    );
+  }
+}
+
+class Profile_tab extends StatelessWidget {
+  const Profile_tab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+     return  Login_form();
+  }
+}
+
+
+
+
+
 
 class Float extends StatelessWidget {
   const Float({super.key});
