@@ -1,1 +1,1 @@
-A repository of a which is used for building a flutter project for creating a football tracking app which can be used for tracking your favourite football clib.
+A repository of a which is used for building a flutter project for creating a football tracking app which can be used for tracking your favourite football club.
