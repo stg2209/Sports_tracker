@@ -25,13 +25,26 @@ class _HomeState extends State<Home> {
     return Scaffold(
 
       appBar: AppBar(
-        title:Text("Footy",
-          style: TextStyle(
-              fontSize: 25
-          ),
+        title:
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            //SizedBox(width: 80),
+            Image.asset(
+              'Assets/bayern.png', // Replace 'your_image.png' with your actual image file path
+              width: 35, // Adjust width as needed
+              height: 35, // Adjust height as needed
+            ),
+            SizedBox(width: 8), // Add some spacing between the image and the text
+            Text('FC Bayern Munich',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            ),
+          ],
         ),
         centerTitle: true,
-        backgroundColor: Colors.teal[400],
+        backgroundColor: Colors.red[700],
 
       ),
       body:
@@ -46,7 +59,7 @@ class _HomeState extends State<Home> {
 
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.deepOrange,
+            backgroundColor: Colors.red[700],
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_soccer),

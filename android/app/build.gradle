@@ -22,6 +22,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+//apply plugin: "com.google.gms.google-services"
+//plugins {
+//    id("com.android.application")
+//
+//    // Add the Google services Gradle plugin
+//    id("com.google.gms.google-services")
+//
+//}
 android {
     namespace "com.example.sports_tracker"
     compileSdkVersion flutter.compileSdkVersion

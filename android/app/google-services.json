@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "781276566537",
+    "project_id": "fcbayern-c79b2",
+    "storage_bucket": "fcbayern-c79b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781276566537:android:14f079e2f7a065a56c14d8",
+        "android_client_info": {
+          "package_name": "com.example.sports_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpO_bKH6XShu8JKP8PGQGtmvfC8Y0SDgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

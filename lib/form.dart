@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class Login_form extends StatefulWidget {
   const Login_form({super.key});
@@ -69,7 +71,21 @@ class _Login_formState extends State<Login_form> {
           ),
           SizedBox(height: 30,),
 
-          Text("Don't have an account ?")
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Don't have an account ?"),
+              TextButton(onPressed: () {},
+                child: Text(
+                  "Sign up",
+                  style: TextStyle(
+                      color: Colors.teal[600]
+                  ),
+                ),
+              ),
+            ],
+      )
+
         ],
       ),
     ),
