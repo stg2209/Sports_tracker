@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sports_tracker/firebase_funcs.dart';
 import 'package:sports_tracker/profile_tab.dart';
 //import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
@@ -30,6 +31,9 @@ class Login_form extends StatefulWidget {
 class _Login_formState extends State<Login_form> {
   final login_key = GlobalKey<FormState>();
   Profile_tab pt= Profile_tab();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -42,7 +46,10 @@ class _Login_formState extends State<Login_form> {
 
             decoration: InputDecoration(
               labelText: 'Username',
-              prefixIcon: Icon(Icons.person_2_outlined),
+              prefixIcon: Icon(
+                  Icons.person_2_outlined,
+                  color: Colors.red,
+              ),
 
             ),
             validator: (value) {
@@ -59,7 +66,10 @@ class _Login_formState extends State<Login_form> {
 
             decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icon(Icons.password),
+              prefixIcon: Icon(
+                Icons.password,
+                color: Colors.red,
+              ),
 
             ),
             validator: (value) {
@@ -73,7 +83,10 @@ class _Login_formState extends State<Login_form> {
           SizedBox(height: 8,),
 
           ElevatedButton(
+
             onPressed: (){
+
+
               if (login_key.currentState!.validate()) {
                 // If the form is valid, display a snackbar. In the real world,
                 // you'd often call a server or save the information in a database.
