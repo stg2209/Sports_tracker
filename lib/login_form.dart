@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sports_tracker/profile_tab.dart';
+//import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
+// const auth = getAuth();
+// createUserWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+// // Signed up
+// const user = userCredential.user;
+// // ...
+// })
+//     .catch((error) => {
+// const errorCode = error.code;
+// const errorMessage = error.message;
+// // ..
+// });
 
 
 class Login_form extends StatefulWidget {
-  const Login_form({super.key});
+  final void Function(int) onTabChange;
+
+  const Login_form({Key? key, required this.onTabChange}) : super(key: key);
+  //const Login_form({super.key});
 
   @override
   State<Login_form> createState() => _Login_formState();
 }
 
 class _Login_formState extends State<Login_form> {
-  final _formKey = GlobalKey<FormState>();
+  final login_key = GlobalKey<FormState>();
+  Profile_tab pt= Profile_tab();
   @override
   Widget build(BuildContext context) {
     return Center(
       child:Form(
-      key: _formKey,
+      key: login_key,
       child: Column(
         children: [
           SizedBox(height:150),
@@ -23,7 +42,7 @@ class _Login_formState extends State<Login_form> {
 
             decoration: InputDecoration(
               labelText: 'Username',
-              prefixIcon: Icon(Icons.person),
+              prefixIcon: Icon(Icons.person_2_outlined),
 
             ),
             validator: (value) {
@@ -55,7 +74,7 @@ class _Login_formState extends State<Login_form> {
 
           ElevatedButton(
             onPressed: (){
-              if (_formKey.currentState!.validate()) {
+              if (login_key.currentState!.validate()) {
                 // If the form is valid, display a snackbar. In the real world,
                 // you'd often call a server or save the information in a database.
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -75,11 +94,14 @@ class _Login_formState extends State<Login_form> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Don't have an account ?"),
-              TextButton(onPressed: () {},
+              TextButton(
+                onPressed: (){
+                  widget.onTabChange(1);
+              },
                 child: Text(
                   "Sign up",
                   style: TextStyle(
-                      color: Colors.teal[600]
+                      color: Colors.red[700]
                   ),
                 ),
               ),

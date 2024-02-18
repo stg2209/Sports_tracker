@@ -21,7 +21,7 @@ class Home_tab extends StatelessWidget {
             child:Column(
               mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
               children: [
-                Icon(Icons.person,color: Colors.teal,), // Icon widget
+                Icon(Icons.person,color: Colors.red[700]), // Icon widget
                 SizedBox(height: 8), // Spacer between icon and text
                 Text('Player',
                     style:TextStyle(
@@ -39,7 +39,7 @@ class Home_tab extends StatelessWidget {
             child:Column(
               mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
               children: [
-                Icon(Icons.people,color: Colors.teal,), // Icon widget
+                Icon(Icons.people,color:Colors.red[700]), // Icon widget
                 SizedBox(height: 8), // Spacer between icon and text
                 Text('Squad',
                     style:TextStyle(
@@ -56,7 +56,7 @@ class Home_tab extends StatelessWidget {
             child:Column(
               mainAxisSize: MainAxisSize.min, // Ensure that the column only occupies the space required by its children
               children: [
-                Icon(Icons.table_rows_outlined,color: Colors.teal,), // Icon widget
+                Icon(Icons.table_rows_outlined,color:Colors.red[700]), // Icon widget
                 SizedBox(height: 8), // Spacer between icon and text
                 Text('Points table',
                     style:TextStyle(

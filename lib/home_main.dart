@@ -18,7 +18,8 @@ class _HomeState extends State<Home> {
   void _onTap(int index) {
     setState(() {
       selected_index = index;
-    });
+    }
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,8 @@ class _HomeState extends State<Home> {
       body:
       Container(
         padding: EdgeInsets.all(25),
-        child: _getBodyWidget(selected_index),),
+        child: _getBodyWidget(selected_index),
+      ),
 
 
       bottomNavigationBar: BottomNavigationBar(
@@ -59,28 +61,25 @@ class _HomeState extends State<Home> {
 
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.red[700],
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_soccer),
             label: 'Score',
-            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sensor_occupied),
             label: 'Profile',
-            backgroundColor: Colors.green,
           ),
 
 
 
         ],
         currentIndex: selected_index,
-        selectedItemColor: Colors.teal[600],
+        selectedItemColor: Colors.red[700],
 
         onTap: _onTap,
       ),
-      floatingActionButton: selected_index == 0 ? Float() : null,
+      //floatingActionButton: selected_index == 0 ? Float() : null,
 
 
     );
@@ -105,22 +104,22 @@ class _HomeState extends State<Home> {
 
 
 
-class Float extends StatelessWidget {
-  const Float({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {},
-      child:Text("Add team",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15,
-          fontFamily: 'Teko',
-        ),),
-      backgroundColor: Colors.teal[400],
-
-    );
-  }
-}
+// class Float extends StatelessWidget {
+//   const Float({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return FloatingActionButton(
+//       onPressed: () {},
+//       child:Text("Add team",
+//         textAlign: TextAlign.center,
+//         style: TextStyle(
+//           color: Colors.black,
+//           fontSize: 15,
+//           fontFamily: 'Teko',
+//         ),),
+//       backgroundColor: Colors.teal[400],
+//
+//     );
+//   }
+// }
