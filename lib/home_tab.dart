@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_tracker/firebase_funcs.dart';
 
 
 class Home_tab extends StatelessWidget {
@@ -6,8 +7,10 @@ class Home_tab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
+    return Column(
+      children:[
+        Container(
+        child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
 
 
@@ -34,6 +37,7 @@ class Home_tab extends StatelessWidget {
 
           ElevatedButton(//for squad stats
             onPressed: () {
+              getData();
               // Add your onPressed callback here
             },
             child:Column(
@@ -67,7 +71,25 @@ class Home_tab extends StatelessWidget {
           ),
         ],
       ),
+        ),
+        SizedBox(height:30),
+        Container(
+          child: Center(
+          child:ExpansionTile(
 
+            backgroundColor: Colors.yellow[50],
+          title: Text(
+            'Coffee',
+              style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              ),
+            textAlign: TextAlign.center,
+            ) ,
+          ),
+        ),
+        ),
+        ]
     );
   }
 }

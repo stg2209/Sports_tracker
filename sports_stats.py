@@ -3,12 +3,12 @@ import requests
 API_KEY = "12457496b72249c29dd458fe11268b2a"  # Replace with your actual API key
 TEAM_ID = 5  # Replace with the team ID
 #https://api.football-data.org/v4/competitions
-url = f"https://api.football-data.org/v4/competitions/2002/teams"
+url = f"https://api.football-data.org/v4/teams/5"
 #url=f"https://api.football-data.org/v4/person/8004"
 headers = {"X-Auth-Token": API_KEY}
-params = {"season": 2023}  # Optional: filter by season
+#params = {"season": 2023}  # Optional: filter by season
 
-response = requests.get(url, headers=headers, params=params)
+response = requests.get(url, headers=headers)
 
 if response.status_code == 200:
     matches = response.json()
@@ -16,7 +16,7 @@ if response.status_code == 200:
     #print(matches['teams'][0]['name'], matches['teams'][1]['name'])
     #for i in range(18):
 
-    print(matches['teams'][4]['name'])
+    print(matches['squad'])
 else:
     print(f"Error: {response.status_code}")
 
