@@ -29,7 +29,7 @@ class Home_tab extends StatelessWidget {
                 Text('Player',
                     style:TextStyle(
                       color: Colors.black,
-                    )),
+                    ),),
                 // Text widget
               ],
             ),// Specify the label
@@ -37,7 +37,6 @@ class Home_tab extends StatelessWidget {
 
           ElevatedButton(//for squad stats
             onPressed: () {
-              getData();
               // Add your onPressed callback here
             },
             child:Column(
@@ -79,12 +78,12 @@ class Home_tab extends StatelessWidget {
 
             backgroundColor: Colors.yellow[50],
           title: Text(
-            'Coffee',
+            '${entire_squad[0]['name']}',
               style: TextStyle(
               color: Colors.black,
               fontSize: 20,
               ),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             ) ,
           ),
         ),
