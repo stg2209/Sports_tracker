@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_tracker/firebase_funcs.dart';
 import 'package:sports_tracker/home_tab.dart';
 import 'package:sports_tracker/profile_tab.dart';
 import 'package:sports_tracker/score_tab.dart';
@@ -6,7 +7,10 @@ import 'package:sports_tracker/score_tab.dart';
 
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  //const Home({super.key});
+  final dynamic squad;
+
+  const Home({Key? key, required this.squad}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -21,6 +25,7 @@ class _HomeState extends State<Home> {
     }
     );
   }
+  var data= "entire_squad";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +92,8 @@ class _HomeState extends State<Home> {
   Widget _getBodyWidget(int index) {
     switch (index) {
       case 0:
-        return Home_tab();
+        // return Home_tab(squad:data);
+        return Home_tab(home_tab_squad:widget.squad);
       case 1:
         return Score_tab();
       case 2:

@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-var entire_squad;
+//List<dynamic> entire_squad = [];
+
 
 void fetchData() async {
   const API_KEY = "12457496b72249c29dd458fe11268b2a";
@@ -41,15 +42,41 @@ Future<int> signUp(String email, String password) async {
     return -1; // Return -1 for failure
   }
 }
-
-Future<void> getData() async {
+//
+Object getsquad() async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
-  final snapshot = await ref.child('Squad').get();
 
-    var entire_squad =snapshot.value;
-    //var squad_name= entire_squad[4]['name'];
-    //print(squad_name);
+
+
+  try {
+  final snapshot = await ref.child('Squad').get();
+   var entire_squad = snapshot.value;
+  // var entire_squad = sd;
+   print(entire_squad);
+    return entire_squad;
+  }
+  catch (error) {
+    return null;
+  }
 }
+
+
+// Object getData() {
+//   final ref = FirebaseDatabase.instance.ref();
+//   try {
+//     // Perform the asynchronous operation without await
+//     final snapshot = ref.child('Squad').get();
+//
+//     // Directly return the value without waiting for the future to complete
+//     return snapshot.then((snapshot) => snapshot.value);
+//   } catch (error) {
+//     return [];
+//   }
+// }
+
+
+
 
 
 void createRecord(var data) async{
