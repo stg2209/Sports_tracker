@@ -7,10 +7,10 @@ import 'package:sports_tracker/score_tab.dart';
 
 
 class Home extends StatefulWidget {
-  //const Home({super.key});
-  final dynamic squad;
+  const Home({super.key});
+  //final dynamic squad;
 
-  const Home({Key? key, required this.squad}) : super(key: key);
+  //const Home({Key? key, required this.squad}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
     switch (index) {
       case 0:
         // return Home_tab(squad:data);
-        return Home_tab(home_tab_squad:widget.squad);
+        return Home_tab();
       case 1:
         return Score_tab();
       case 2:

@@ -43,7 +43,7 @@ Future<int> signUp(String email, String password) async {
   }
 }
 //
-Object getsquad() async {
+Future<Object?> getsquad(var squad) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
 
@@ -51,13 +51,9 @@ Object getsquad() async {
 
   try {
   final snapshot = await ref.child('Squad').get();
-   var entire_squad = snapshot.value;
-  // var entire_squad = sd;
-   print(entire_squad);
-    return entire_squad;
+   var squad = snapshot.value;
   }
   catch (error) {
-    return null;
   }
 }
 
@@ -74,6 +70,9 @@ Object getsquad() async {
 //     return [];
 //   }
 // }
+
+
+
 
 
 

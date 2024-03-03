@@ -13,10 +13,8 @@ Future <void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   fetchData();
-  var entire_squad="getsquad()";
-  print(entire_squad);
   runApp(MaterialApp(
-    home: Home(squad:entire_squad),
+    home: Home(),
     theme: ThemeData(
       fontFamily: 'Teko',
     ),

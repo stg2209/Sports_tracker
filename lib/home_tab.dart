@@ -4,10 +4,10 @@ import 'package:sports_tracker/firebase_funcs.dart';
 
 
 class Home_tab extends StatefulWidget {
-  //const Home_tab({super.key});
-  final dynamic home_tab_squad;
-
-  const Home_tab({Key? key, required this.home_tab_squad}) : super(key: key);
+  const Home_tab({super.key});
+  // final dynamic home_tab_squad;
+  //
+  // const Home_tab({Key? key, required this.home_tab_squad}) : super(key: key);
 
 
   @override
@@ -18,55 +18,24 @@ class _Home_tabState extends State<Home_tab> {
 
   var entire_squad;
 
-  void initState() {
-    super.initState();
-    // Call your function here
-    entire_squad = getsquad();
-  }
-
-
   Future<Object?> getsquad() async {
     FirebaseDatabase database = FirebaseDatabase.instance;
     final ref = FirebaseDatabase.instance.ref();
 
-
     try {
       final snapshot = await ref.child('Squad').get();
       var sd = snapshot.value;
-      entire_squad = sd;
-      return entire_squad;
-    }
-    catch (error) {
+      return sd; // Return the fetched data
+    } catch (error) {
+      // Handle error if needed
       return null;
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> textWidgets = [];
-
-    // Loop to create 5 Text widgets with numbers 1 to 5
-    for (var i in entire_squad) {
-      textWidgets.add(
-        ExpansionTile(
-          title: Row(
-            children: [
-              Icon(Icons.sports_soccer),
-              SizedBox(width: 10), // Add some spacing between the icon and the text
-              Text('${i['name']}'),
-            ],
-          ),
-            children: <Widget>[
-        // Content widgets inside the ExpansionTile
-        ListTile(
-        title: Text('Name: ${i['name']}\n\n'
-            'Position: ${i['position']}\n\n'
-        'Nationality: ${i['nationality']}'),
-      ),],
-        ),
-      );
-    }
-
 
     return SingleChildScrollView(
       child:Column(
@@ -141,23 +110,56 @@ class _Home_tabState extends State<Home_tab> {
           ),
           SizedBox(height: 30),
           Column(
-    children: textWidgets,
-    )
+            children: [
+              FutureBuilder<Object?>(
+                  future: getsquad(), // Call getsquad() to fetch data
+                  builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
+                    // Check if the Future has completed
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // Check if data has been successfully fetched
+                      if (snapshot.hasData) {
+                        // Data has been fetched successfully, use it
+                        entire_squad = snapshot.data;
+                        List<Widget> textWidgets = [];
+
+                        for (var i in entire_squad) {
+                          textWidgets.add(
+                            ExpansionTile(
+                              title: Row(
+                                children: [
+                                  Icon(Icons.sports_soccer),
+                                  SizedBox(width: 10), // Add some spacing between the icon and the text
+                                  Text('${i['name']}'),
+                                ],
+                              ),
+                              children: <Widget>[
+                                // Content widgets inside the ExpansionTile
+                                ListTile(
+                                  title: Text('Name: ${i['name']}\n\n'
+                                      'Position: ${i['position']}\n\n'
+                                      'Nationality: ${i['nationality']}'),
+                                ),],
+                            ),
+                          );
+                        }
+
+                        return Column(
+                          children: textWidgets,
+                        );
+                      } else {
+                        // Data fetch failed or is null, handle error or show loading indicator
+                        return Center(child: CircularProgressIndicator()); // Or display an error message
+                      }
+                    } else {
+                      // Future is still loading, show a loading indicator
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+            ]
+    ),
 
 
-              // child:FutureBuilder<Object?>(
-              //   future: entire_squad,
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return CircularProgressIndicator();
-              //     } else if (snapshot.hasError) {
-              //       return Text('Error: ${snapshot.error}');
-              //     } else {
-              //       // Display your squad data here
-              //       return Text('Squad Data: ${snapshot.data}');
-              //     }
-              //   },
-              // ),
 
 
 
