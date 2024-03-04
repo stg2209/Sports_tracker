@@ -1,6 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_tracker/firebase_funcs.dart';
+import 'package:sports_tracker/points_table.dart';
+import 'package:sports_tracker/squad.dart';
+import 'package:sports_tracker/stats.dart';
 
 
 class Home_tab extends StatefulWidget {
@@ -33,6 +36,14 @@ class _Home_tabState extends State<Home_tab> {
   }
 
 
+  int selected_index=0;
+  void change (int index) {
+    setState(() {
+      selected_index = index;
+    }
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +61,13 @@ class _Home_tabState extends State<Home_tab> {
                 ElevatedButton( // for player stats
 
                   onPressed: () {
-                    // Add your onPressed callback here
+                    change(0);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     // Ensure that the column only occupies the space required by its children
                     children: [
-                      Icon(Icons.person, color: Colors.red[700]), // Icon widget
+                      Icon(Icons.people, color: Colors.red[700]), // Icon widget
                       SizedBox(height: 8), // Spacer between icon and text
                       Text('Squad',
                         style: TextStyle(
@@ -69,15 +80,15 @@ class _Home_tabState extends State<Home_tab> {
 
                 ElevatedButton( //for squad stats
                   onPressed: () {
-                    // Add your onPressed callback here
+                    change(1);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     // Ensure that the column only occupies the space required by its children
                     children: [
-                      Icon(Icons.people, color: Colors.red[700]), // Icon widget
+                      Icon(Icons.person, color: Colors.red[700]), // Icon widget
                       SizedBox(height: 8), // Spacer between icon and text
-                      Text('Matches',
+                      Text('Stats',
                           style: TextStyle(
                             color: Colors.black,
                           )), // Text widget
@@ -87,7 +98,7 @@ class _Home_tabState extends State<Home_tab> {
 
                 ElevatedButton( //for points table
                   onPressed: () {
-                    // Add your onPressed callback here
+                    change(2);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -109,54 +120,55 @@ class _Home_tabState extends State<Home_tab> {
             ),
           ),
           SizedBox(height: 30),
-          Column(
-            children: [
-              FutureBuilder<Object?>(
-                  future: getsquad(), // Call getsquad() to fetch data
-                  builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
-                    // Check if the Future has completed
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // Check if data has been successfully fetched
-                      if (snapshot.hasData) {
-                        // Data has been fetched successfully, use it
-                        entire_squad = snapshot.data;
-                        List<Widget> textWidgets = [];
-
-                        for (var i in entire_squad) {
-                          textWidgets.add(
-                            ExpansionTile(
-                              title: Row(
-                                children: [
-                                  Icon(Icons.sports_soccer),
-                                  SizedBox(width: 10), // Add some spacing between the icon and the text
-                                  Text('${i['name']}'),
-                                ],
-                              ),
-                              children: <Widget>[
-                                // Content widgets inside the ExpansionTile
-                                ListTile(
-                                  title: Text('Name: ${i['name']}\n\n'
-                                      'Position: ${i['position']}\n\n'
-                                      'Nationality: ${i['nationality']}'),
-                                ),],
-                            ),
-                          );
-                        }
-
-                        return Column(
-                          children: textWidgets,
-                        );
-                      } else {
-                        // Data fetch failed or is null, handle error or show loading indicator
-                        return Center(child: CircularProgressIndicator()); // Or display an error message
-                      }
-                    } else {
-                      // Future is still loading, show a loading indicator
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-            ]
+          Container(
+            // children: [
+            //   FutureBuilder<Object?>(
+            //       future: getsquad(), // Call getsquad() to fetch data
+            //       builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
+            //         // Check if the Future has completed
+            //         if (snapshot.connectionState == ConnectionState.done) {
+            //           // Check if data has been successfully fetched
+            //           if (snapshot.hasData) {
+            //             // Data has been fetched successfully, use it
+            //             entire_squad = snapshot.data;
+            //             List<Widget> textWidgets = [];
+            //
+            //             for (var i in entire_squad) {
+            //               textWidgets.add(
+            //                 ExpansionTile(
+            //                   title: Row(
+            //                     children: [
+            //                       Icon(Icons.sports_soccer),
+            //                       SizedBox(width: 10), // Add some spacing between the icon and the text
+            //                       Text('${i['name']}'),
+            //                     ],
+            //                   ),
+            //                   children: <Widget>[
+            //                     // Content widgets inside the ExpansionTile
+            //                     ListTile(
+            //                       title: Text('Name: ${i['name']}\n\n'
+            //                           'Position: ${i['position']}\n\n'
+            //                           'Nationality: ${i['nationality']}'),
+            //                     ),],
+            //                 ),
+            //               );
+            //             }
+            //
+            //             return Column(
+            //               children: textWidgets,
+            //             );
+            //           } else {
+            //             // Data fetch failed or is null, handle error or show loading indicator
+            //             return Center(child: CircularProgressIndicator()); // Or display an error message
+            //           }
+            //         } else {
+            //           // Future is still loading, show a loading indicator
+            //           return Center(child: CircularProgressIndicator());
+            //         }
+            //       },
+            //     ),
+            // ]
+            child: _getBodyWidget(selected_index),
     ),
 
 
@@ -164,7 +176,21 @@ class _Home_tabState extends State<Home_tab> {
 
 
     ]
-    )
+    ),
     );
+
+  }
+
+  Widget _getBodyWidget(int index) {
+    switch (index) {
+      case 0:
+        return Squad_details();
+      case 1:
+        return Stats();
+      case 2:
+        return Points_table();
+      default:
+        return SizedBox.shrink();
+    }
   }
 }

@@ -5,20 +5,36 @@ import 'package:http/http.dart' as http;
 //List<dynamic> entire_squad = [];
 
 
-void fetchData() async {
+void fetch_data() async {
   const API_KEY = "12457496b72249c29dd458fe11268b2a";
-  //final response = await http.get(Uri.parse('https://api.football-data.org/v4/teams/5'));
-  final Uri uri = Uri.parse("https://api.football-data.org/v4/teams/5");
-  //var url = "https://api.football-data.org/v4/teams/5";
-  var headers = {"X-Auth-Token": API_KEY};
-  //var params = {"season": season } ;
 
-  final response = await http.get(uri, headers :headers,);
-  if (response.statusCode == 200) {
+  var headers = {"X-Auth-Token": API_KEY};
+
+  final Uri squad = Uri.parse("https://api.football-data.org/v4/teams/5");
+
+  final Uri points = Uri.parse("https://api.football-data.org/v4/competitions/2002/standings");
+
+  final Uri matches = Uri.parse("https://api.football-data.org/v4/teams/5/matches/");
+
+  final response_squad = await http.get(squad, headers :headers,);
+
+  final response_points = await http.get(points, headers :headers,);
+
+  final response_matches = await http.get(matches, headers :headers,);
+
+  if (response_squad.statusCode == 200 && response_points.statusCode==200 && response_matches.statusCode==200) {
     // If the call to the server was successful, parse the JSON
-    var data = json.decode(response.body);
-    //print(data['squad']);
-    createRecord(data['squad']);
+    var data_squad = json.decode(response_squad.body);
+    var data_points = json.decode(response_points.body);
+    var data_matches = json.decode(response_matches.body);
+
+    createRecord(data_squad['squad'],data_points['standings'][0]['table'],data_matches['matches']);
+
+
+
+    //createRecord(data_points['standings'], "Points_table/");
+    // print(data_points['standings'][0]['table']);
+
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load data');
@@ -42,20 +58,37 @@ Future<int> signUp(String email, String password) async {
     return -1; // Return -1 for failure
   }
 }
-//
-Future<Object?> getsquad(var squad) async {
-  FirebaseDatabase database = FirebaseDatabase.instance;
-  final ref = FirebaseDatabase.instance.ref();
 
-
-
+Future<int> signIn(String email, String password) async {
   try {
-  final snapshot = await ref.child('Squad').get();
-   var squad = snapshot.value;
-  }
-  catch (error) {
+    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password
+    );
+    User? user = credential.user;
+    return 0;
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      return 1;
+    } else if (e.code == 'wrong-password') {
+      return -1;
+    }
   }
 }
+//
+// Future<Object?> getsquad(var squad) async {
+//   FirebaseDatabase database = FirebaseDatabase.instance;
+//   final ref = FirebaseDatabase.instance.ref();
+//
+//
+//
+//   try {
+//   final snapshot = await ref.child('Squad').get();
+//    var squad = snapshot.value;
+//   }
+//   catch (error) {
+//   }
+// }
 
 
 // Object getData() {
@@ -70,16 +103,13 @@ Future<Object?> getsquad(var squad) async {
 //     return [];
 //   }
 // }
+void createRecord(var data_squad,var data_points , var data_matches) async{
+  DatabaseReference ref_squad = FirebaseDatabase.instance.ref("Squad/");
+  DatabaseReference ref_points = FirebaseDatabase.instance.ref("Points_table/");
+  DatabaseReference ref_matches = FirebaseDatabase.instance.ref("Matches/");
 
-
-
-
-
-
-
-
-void createRecord(var data) async{
-  DatabaseReference ref = FirebaseDatabase.instance.ref("Squad/");
-
-  await ref.set(data);
+  await ref_squad.set(data_squad);
+  await ref_points.set(data_points);
+  await ref_matches.set(data_matches);
 }
+

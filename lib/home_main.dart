@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_tracker/firebase_funcs.dart';
 import 'package:sports_tracker/home_tab.dart';
 import 'package:sports_tracker/profile_tab.dart';
-import 'package:sports_tracker/score_tab.dart';
+import 'package:sports_tracker/matches_tab.dart';
 
 
 
@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_soccer),
-            label: 'Score',
+            icon: Icon(Icons.sports),
+            label: 'Matches',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sensor_occupied),
@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
         // return Home_tab(squad:data);
         return Home_tab();
       case 1:
-        return Score_tab();
+        return Matches_tab();
       case 2:
         return Profile_tab();
       default:
