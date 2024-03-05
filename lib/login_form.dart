@@ -32,7 +32,16 @@ class _Login_formState extends State<Login_form> {
   final login_key = GlobalKey<FormState>();
  // Profile_tab pt= Profile_tab();
 
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    // Dispose the controllers to avoid memory leaks
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +52,19 @@ class _Login_formState extends State<Login_form> {
         children: [
           SizedBox(height:150),
           TextFormField(
+            controller: _emailController,
 
             decoration: InputDecoration(
-              labelText: 'Username',
+              labelText: 'Email',
               prefixIcon: Icon(
-                  Icons.person_2_outlined,
+                  Icons.email_outlined,
                   color: Colors.red,
               ),
 
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter Username';
+                return 'Please enter Email';
               }
               return null;
             },
@@ -63,6 +73,7 @@ class _Login_formState extends State<Login_form> {
           SizedBox(height: 8,),
           TextFormField(
             obscureText: true,
+            controller: _passwordController,
 
             decoration: InputDecoration(
               labelText: 'Password',
@@ -84,15 +95,24 @@ class _Login_formState extends State<Login_form> {
 
           ElevatedButton(
 
-            onPressed: (){
+            onPressed: () async{
 
 
               if (login_key.currentState!.validate()) {
-                // If the form is valid, display a snackbar. In the real world,
-                // you'd often call a server or save the information in a database.
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
+                int logInResult = await signIn(_emailController.text, _passwordController.text);
+
+                if (logInResult==0){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Logging in')),
+                  );
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Failed to Log in')),
+                  );
+
+                }
+
               }
             },
             child: Text("Login",

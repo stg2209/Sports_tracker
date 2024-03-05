@@ -96,21 +96,26 @@ class _Sign_upState extends State<Sign_up> {
             ),
             SizedBox(height: 8,),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () async{
                 if (signin_key.currentState!.validate()) {
-                  if (signUp(_emailController.text, _passwordController.text)==0){
-                    const AlertDialog(content: Text("Success"),
+
+                  int signUpResult = await signUp(_emailController.text, _passwordController.text);
+
+
+                  if (signUpResult==0){
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Successfully signed up')),
                     );
                   }
                   else{
-                    const AlertDialog(content: Text("failed"),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Failed to sign up')),
                     );
                   }
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
+
                 }
               },
               child: Text("Sign up",

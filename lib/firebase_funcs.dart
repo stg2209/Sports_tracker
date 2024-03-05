@@ -1,7 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
+
 //List<dynamic> entire_squad = [];
 
 
@@ -27,6 +33,22 @@ void fetch_data() async {
     var data_squad = json.decode(response_squad.body);
     var data_points = json.decode(response_points.body);
     var data_matches = json.decode(response_matches.body);
+
+    var bundesliga_link = data_points['competition']['emblem'];
+    var bundesliga_name = data_points['competition']['name'];
+    final Uri bundesliga_em = Uri.parse(bundesliga_link);
+    final response_bundes_img= await http.get(bundesliga_em);
+
+    if (response_bundes_img.statusCode==200){
+      upload_firestore(response_bundes_img, bundesliga_name);
+    }
+    else{
+      print("Image not fetched");
+    }
+    //print(response_bundes_img.body);
+
+
+
 
     createRecord(data_squad['squad'],data_points['standings'][0]['table'],data_matches['matches']);
 
@@ -61,18 +83,23 @@ Future<int> signUp(String email, String password) async {
 
 Future<int> signIn(String email, String password) async {
   try {
-    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    final UserCredential credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password
     );
     User? user = credential.user;
+    print(user);
     return 0;
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      return 1;
-    } else if (e.code == 'wrong-password') {
-      return -1;
-    }
+  }
+  // on FirebaseAuthException catch (e) {
+  //   if (e.code == 'user-not-found') {
+  //     return 1;
+  //   } else if (e.code == 'wrong-password') {
+  //     return -1;
+  //   }
+  catch(e){
+    print(e);
+    return 1;
   }
 }
 //
@@ -111,5 +138,45 @@ void createRecord(var data_squad,var data_points , var data_matches) async{
   await ref_squad.set(data_squad);
   await ref_points.set(data_points);
   await ref_matches.set(data_matches);
+}
+
+void upload_firestore(var img, var name) async{
+
+  String imageName = 'image.png'; // Choose a name for your image
+  // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref().child('images/$imageName');
+  //await ref.putData(bytes);
+
+
+  try{
+    final storageRef = FirebaseStorage.instance.ref().child("Competitions/${name}/$imageName");
+    Uint8List bytes = img.bodyBytes;
+
+
+    await storageRef.putData(bytes);
+    print('image added');
+
+  }
+  catch(e){
+    print("Image not added");
+  }
+
+
+
+
+
+  //File file = File(img);
+  //
+  // try {
+  //   final storageRef = FirebaseStorage.instance.ref().child("Competitions/${name}/$imageName");
+  //   Uint8List bytes = img.bodyBytes;
+  //
+  //
+  //   await storageRef.putData(bytes);
+  // } catch (e) {
+  //   print("firestore");
+  //   //print(e);
+  // }
+
+
 }
 

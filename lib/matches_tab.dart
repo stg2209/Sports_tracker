@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+
 class Matches_tab extends StatefulWidget {
   const Matches_tab({super.key});
 
@@ -10,6 +13,8 @@ class Matches_tab extends StatefulWidget {
 class _Matches_tabState extends State<Matches_tab> {
 
   var matches;
+
+  var bundesliga_em;
 
   Future<Object?> getmatches() async {
     FirebaseDatabase database = FirebaseDatabase.instance;
@@ -22,6 +27,16 @@ class _Matches_tabState extends State<Matches_tab> {
     } catch (error) {
       // Handle error if needed
       return null;
+    }
+  }
+
+  Future<String?> fetchImageUrl() async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref().child("Competitions/Bundesliga/image.png"); // Provide the path to your PNG image
+      String downloadUrl = await storageRef.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print('Error fetching image URL: $e');
     }
   }
 
@@ -49,7 +64,27 @@ class _Matches_tabState extends State<Matches_tab> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${match['competition']['name']}'),
+                      Row(
+                        children:[
+                      FutureBuilder<String?>(future:fetchImageUrl(),
+                          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (snapshot.hasData) {
+                              return Image.network(snapshot.data!,width: 15, // Set the width of the image
+                                height: 15, // Set the height of the image
+                                fit: BoxFit.cover, );
+                            } else {
+                              return Text('No image URL available');
+                            }
+                          },
+                          ),
+                        Text('${match['competition']['name']}'),
+                            ]
+                          ),
+
                       SizedBox(width: 20),
                       Text('Matchday ${match['matchday']}'),
                       SizedBox(width: 10),
